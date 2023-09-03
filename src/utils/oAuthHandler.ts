@@ -99,9 +99,9 @@ export async function sendTokenToServer(accessToken: string, refreshToken: strin
   return await axios.post(
     '/api',
     {
-      obfuscatedAccessToken: obfuscateToken(accessToken),
+      accessToken: accessToken,
       accessTokenExpiry: parseInt(expiryTime),
-      obfuscatedRefreshToken: obfuscateToken(refreshToken),
+      refreshToken: refreshToken,
     },
     {
       headers: {

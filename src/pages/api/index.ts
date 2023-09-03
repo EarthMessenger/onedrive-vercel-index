@@ -159,9 +159,7 @@ export async function checkAuthRoute(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // If method is POST, then the API is called by the client to store acquired tokens
   if (req.method === 'POST') {
-    const { obfuscatedAccessToken, accessTokenExpiry, obfuscatedRefreshToken } = req.body
-    const accessToken = revealObfuscatedToken(obfuscatedAccessToken)
-    const refreshToken = revealObfuscatedToken(obfuscatedRefreshToken)
+    const { accessToken, accessTokenExpiry, refreshToken } = req.body
 
     if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
       res.status(400).send('Invalid request body')
