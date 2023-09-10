@@ -4,20 +4,6 @@ import CryptoJS from 'crypto-js'
 import apiConfig from '../../config/api.config'
 import siteConfig from '../../config/site.config'
 
-// Just a disguise to obfuscate required tokens (including but not limited to client secret,
-// access tokens, and refresh tokens), used along with the following two functions
-const AES_SECRET_KEY = siteConfig.secretKey;
-export function obfuscateToken(token: string): string {
-  // Encrypt token with AES
-  const encrypted = CryptoJS.AES.encrypt(token, AES_SECRET_KEY)
-  return encrypted.toString()
-}
-export function revealObfuscatedToken(obfuscated: string): string {
-  // Decrypt SHA256 obfuscated token
-  const decrypted = CryptoJS.AES.decrypt(obfuscated, AES_SECRET_KEY)
-  return decrypted.toString(CryptoJS.enc.Utf8)
-}
-
 // Generate the Microsoft OAuth 2.0 authorization URL, used for requesting the authorisation code
 export function generateAuthorisationUrl(): string {
   const { clientId, redirectUri, authApi, scope } = apiConfig
@@ -56,8 +42,7 @@ export async function requestTokenWithAuthCode(
   | { expiryTime: string; accessToken: string; refreshToken: string }
   | { error: string; errorDescription: string; errorUri: string }
 > {
-  const { clientId, redirectUri, authApi } = apiConfig
-  const clientSecret = revealObfuscatedToken(apiConfig.obfuscatedClientSecret)
+  const { clientId, clientSecret, redirectUri, authApi } = apiConfig
 
   // Construct URL parameters for OAuth2
   const params = new URLSearchParams()
