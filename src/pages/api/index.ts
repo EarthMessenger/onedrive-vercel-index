@@ -10,7 +10,7 @@ import { getOdAuthTokens, storeOdAuthTokens } from '../../utils/odAuthTokenStore
 import { runCorsMiddleware } from './raw'
 
 const basePath = pathPosix.resolve('/', siteConfig.baseDirectory)
-const clientSecret = apiConfig.obfuscatedClientSecret
+const clientSecret = apiConfig.clientSecret
 
 /**
  * Encode the path of the file relative to the base directory
